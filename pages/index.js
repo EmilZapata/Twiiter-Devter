@@ -1,24 +1,24 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import AppLayout from "../components/AppLayout";
-import { colors } from "../styles/theme";
-import Button from "../components/Button";
-import GitHub from "../components/Icons/GitHub";
+import Head from "next/head"
+import AppLayout from "components/AppLayout"
+import { colors } from "styles/theme"
+import Button from "components/Button"
+import GitHub from "components/Icons/GitHub"
 // devit
-import { loginGitHub, onAuthStateChanged } from "../firebase/client";
-import { useState, useEffect } from "react";
+import { loginGitHub, onAuthStateChanged } from "firebase/client"
+import { useState, useEffect } from "react"
+import Avatar from "components/Avatar"
+import Logo from "components/Icons/Logo"
 
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    onAuthStateChanged(setUser);
-  }, []);
+    onAuthStateChanged(setUser)
+  }, [])
 
   const handleClick = () => {
-    loginGitHub().then(setUser).catch(console.log);
-  };
+    loginGitHub().then(setUser).catch(console.log)
+  }
 
   return (
     <>
@@ -29,7 +29,7 @@ export default function Home() {
 
       <AppLayout>
         <section>
-          <img src="/favicon.ico" alt="logo" />
+          <Logo width={100} />
           <h1>Devter</h1>
           <h2>
             Talk about development <br /> with developers 👩‍💻👩‍💻
@@ -42,10 +42,11 @@ export default function Home() {
               </Button>
             ) : (
               <div>
-                <img src={user.avatar} />
-                <strong>
-                  {user.username ? user.username : "Sin Username"}
-                </strong>
+                <Avatar
+                  src={user.avatar}
+                  alt={user.username}
+                  text={user.username ? user.username : "Sin Username"}
+                />
               </div>
             )}
           </div>
@@ -71,6 +72,7 @@ export default function Home() {
         h1 {
           color: ${colors.primary};
           font-weight: 800;
+          font-size: 32px;
           margin-bottom: 16px;
         }
 
@@ -81,5 +83,5 @@ export default function Home() {
         }
       `}</style>
     </>
-  );
+  )
 }
