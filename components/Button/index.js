@@ -1,9 +1,11 @@
 import { colors } from "../../styles/theme"
 
-export default function Button({ children, onClick }) {
+export default function Button({ disabled, children, onClick }) {
   return (
     <>
-      <button onClick={onClick}>{children}</button>
+      <button disabled={disabled} onClick={onClick}>
+        {children}
+      </button>
       <style jsx>{`
         button {
           background: ${colors.black};
@@ -17,6 +19,12 @@ export default function Button({ children, onClick }) {
           transition: opacity 0.3s ease;
           display: flex;
           align-items: center;
+          user-select: none;
+        }
+
+        button[disabled] {
+          pointer-events: none;
+          opacity: 0.2;
         }
 
         button > :global(svg) {

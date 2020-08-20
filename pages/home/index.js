@@ -1,15 +1,16 @@
 import AppLayout from "components/AppLayout"
 import { useEffect, useState } from "react"
 import Devit from "components/Devit"
+import useUser from "hooks/useUser"
+import { fetchLatestDevits } from "firebase/client"
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([])
+  const user = useUser()
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/statuses/home_timeline")
-      .then((res) => res.json())
-      .then(setTimeline)
-  }, [])
+    user && fetchLatestDevits().then(setTimeline)
+  }, [user])
 
   return (
     <>
@@ -18,15 +19,19 @@ export default function HomePage() {
           <h2>Inicio</h2>
         </header>
         <section>
-          {timeline.map(({ id, username, avatar, message }) => (
-            <Devit
-              key={id}
-              username={username}
-              avatar={avatar}
-              message={message}
-              id={id}
-            />
-          ))}
+          {timeline.map(
+            ({ createdAt, id, username, avatar, content, userId }) => (
+              <Devit
+                avatar={avatar}
+                createdAt={createdAt}
+                id={id}
+                key={id}
+                content={content}
+                userName={username}
+                userId={userId}
+              />
+            )
+          )}
         </section>
         <nav></nav>
       </AppLayout>
@@ -34,28 +39,28 @@ export default function HomePage() {
         header {
           position: sticky;
           height: 49px;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #eee;
           top: 0;
           width: 100%;
           display: flex;
           align-items: center;
+          background: #ffffffaa;
+          backdrop-filter: blur(5px);
         }
 
         h2 {
           font-size: 21px;
           font-weight: 800;
-        }
-
-        section {
-          padding-top: 49px;
+          padding-left: 15px;
         }
 
         nav {
           width: 100%;
           bottom: 0;
           position: sticky;
-          border-top: 1px solid #ccc;
+          border-top: 1px solid #eee;
           height: 49px;
+          background: #fff;
         }
       `}</style>
     </>

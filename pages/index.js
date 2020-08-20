@@ -4,20 +4,22 @@ import { colors } from "styles/theme"
 import Button from "components/Button"
 import GitHub from "components/Icons/GitHub"
 // devit
-import { loginGitHub, onAuthStateChanged } from "firebase/client"
-import { useState, useEffect } from "react"
-import Avatar from "components/Avatar"
+import { loginGitHub } from "firebase/client"
+import { useEffect } from "react"
 import Logo from "components/Icons/Logo"
+import { useRouter } from "next/router"
+import useUser, { USER_STATES } from "hooks/useUser"
 
 export default function Home() {
-  const [user, setUser] = useState(null)
+  const user = useUser()
+  const router = useRouter()
 
   useEffect(() => {
-    onAuthStateChanged(setUser)
-  }, [])
+    user && router.replace("./home")
+  }, [user])
 
   const handleClick = () => {
-    loginGitHub().then(setUser).catch(console.log)
+    loginGitHub().catch(console.log)
   }
 
   return (
@@ -35,20 +37,13 @@ export default function Home() {
             Talk about development <br /> with developers 👩‍💻👩‍💻
           </h2>
           <div>
-            {user === null ? (
+            {user === USER_STATES.NOT_LOGGED && (
               <Button onClick={handleClick}>
                 <GitHub width={32} height={32} fill={"white"} />
                 Login with GitHub
               </Button>
-            ) : (
-              <div>
-                <Avatar
-                  src={user.avatar}
-                  alt={user.username}
-                  text={user.username ? user.username : "Sin Username"}
-                />
-              </div>
             )}
+            {user === USER_STATES.NOT_KNOWN && <img src="/spinner.gif" />}
           </div>
         </section>
       </AppLayout>
