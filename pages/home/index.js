@@ -3,6 +3,12 @@ import { useEffect, useState } from "react"
 import Devit from "components/Devit"
 import useUser from "hooks/useUser"
 import { fetchLatestDevits } from "firebase/client"
+import Link from "next/link"
+import Create from "components/Icons/Create"
+import Home from "components/Icons/Home"
+import Search from "components/Icons/Search"
+import { colors } from "styles/theme"
+import Head from "next/head"
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([])
@@ -15,17 +21,21 @@ export default function HomePage() {
   return (
     <>
       <AppLayout>
+        <Head>
+          <title>Inicio / Devter</title>
+        </Head>
         <header>
           <h2>Inicio</h2>
         </header>
         <section>
           {timeline.map(
-            ({ createdAt, id, username, avatar, content, userId }) => (
+            ({ createdAt, id, img, username, avatar, content, userId }) => (
               <Devit
                 avatar={avatar}
                 createdAt={createdAt}
                 id={id}
                 key={id}
+                img={img}
                 content={content}
                 userName={username}
                 userId={userId}
@@ -33,7 +43,23 @@ export default function HomePage() {
             )
           )}
         </section>
-        <nav></nav>
+        <nav>
+          <Link href="/home">
+            <a>
+              <Home width={32} height={32} stroke="#09f" />
+            </a>
+          </Link>
+          <Link href="/search">
+            <a>
+              <Search width={32} height={32} stroke="#09f" />
+            </a>
+          </Link>
+          <Link href="/compose/tweet">
+            <a>
+              <Create width={32} height={32} stroke="#09f" />
+            </a>
+          </Link>
+        </nav>
       </AppLayout>
       <style jsx>{`
         header {
@@ -46,6 +72,10 @@ export default function HomePage() {
           align-items: center;
           background: #ffffffaa;
           backdrop-filter: blur(5px);
+        }
+
+        section {
+          flex: 1;
         }
 
         h2 {
@@ -61,6 +91,25 @@ export default function HomePage() {
           border-top: 1px solid #eee;
           height: 49px;
           background: #fff;
+          display: flex;
+        }
+
+        nav a {
+          display: flex;
+          flex: 1 1 auto;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+        }
+
+        nav a:hover {
+          background: radial-gradient(#0099ff22 15%, transparent 16%);
+          background-size: 180px 180px;
+          background-position: center;
+        }
+
+        nav a:hover > :global(svg) {
+          stroke: ${colors.primary};
         }
       `}</style>
     </>
