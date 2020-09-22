@@ -1,4 +1,3 @@
-import AppLayout from "components/AppLayout"
 import { useEffect, useState } from "react"
 import Devit from "components/Devit"
 import useUser from "hooks/useUser"
@@ -14,53 +13,52 @@ export default function HomePage() {
   const [timeline, setTimeline] = useState([])
   const user = useUser()
 
+  console.log({ timeline })
   useEffect(() => {
     user && fetchLatestDevits().then(setTimeline)
   }, [user])
 
   return (
     <>
-      <AppLayout>
-        <Head>
-          <title>Inicio / Devter</title>
-        </Head>
-        <header>
-          <h2>Inicio</h2>
-        </header>
-        <section>
-          {timeline.map(
-            ({ createdAt, id, img, username, avatar, content, userId }) => (
-              <Devit
-                avatar={avatar}
-                createdAt={createdAt}
-                id={id}
-                key={id}
-                img={img}
-                content={content}
-                userName={username}
-                userId={userId}
-              />
-            )
-          )}
-        </section>
-        <nav>
-          <Link href="/home">
-            <a>
-              <Home width={32} height={32} stroke="#09f" />
-            </a>
-          </Link>
-          <Link href="/search">
-            <a>
-              <Search width={32} height={32} stroke="#09f" />
-            </a>
-          </Link>
-          <Link href="/compose/tweet">
-            <a>
-              <Create width={32} height={32} stroke="#09f" />
-            </a>
-          </Link>
-        </nav>
-      </AppLayout>
+      <Head>
+        <title>Inicio / Devter</title>
+      </Head>
+      <header>
+        <h2>Inicio</h2>
+      </header>
+      <section>
+        {timeline.map(
+          ({ createdAt, id, img, userName, avatar, content, userId }) => (
+            <Devit
+              avatar={avatar}
+              createdAt={createdAt}
+              id={id}
+              key={id}
+              img={img}
+              content={content}
+              userName={userName}
+              userId={userId}
+            />
+          )
+        )}
+      </section>
+      <nav>
+        <Link href="/home">
+          <a>
+            <Home width={32} height={32} stroke="#09f" />
+          </a>
+        </Link>
+        <Link href="/search">
+          <a>
+            <Search width={32} height={32} stroke="#09f" />
+          </a>
+        </Link>
+        <Link href="/compose/tweet">
+          <a>
+            <Create width={32} height={32} stroke="#09f" />
+          </a>
+        </Link>
+      </nav>
       <style jsx>{`
         header {
           position: sticky;

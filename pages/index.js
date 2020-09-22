@@ -1,5 +1,4 @@
 import Head from "next/head"
-import AppLayout from "components/AppLayout"
 import { colors } from "styles/theme"
 import Button from "components/Button"
 import GitHub from "components/Icons/GitHub"
@@ -29,24 +28,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AppLayout>
-        <section>
-          <Logo width={100} />
-          <h1>Devter</h1>
-          <h2>
-            Talk about development <br /> with developers 👩‍💻👩‍💻
-          </h2>
-          <div>
-            {user === USER_STATES.NOT_LOGGED && (
-              <Button onClick={handleClick}>
-                <GitHub width={32} height={32} fill={"white"} />
-                Login with GitHub
-              </Button>
-            )}
-            {user === USER_STATES.NOT_KNOWN && <img src="/spinner.gif" />}
-          </div>
-        </section>
-      </AppLayout>
+      <section>
+        <Logo width={100} />
+        <h1>Devter</h1>
+        <h2>
+          Talk about development <br /> with developers 👩‍💻👩‍💻
+        </h2>
+        <div>
+          {user === USER_STATES.NOT_LOGGED && (
+            <Button onClick={handleClick}>
+              <GitHub width={32} height={32} fill={"white"} />
+              Login with GitHub
+            </Button>
+          )}
+          {user === USER_STATES.NOT_KNOWN && <img src="/spinner.gif" />}
+        </div>
+      </section>
 
       <style jsx>{`
         img {
